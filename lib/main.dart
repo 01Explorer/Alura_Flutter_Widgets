@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
             children: [
               Task(nome: 'Andar de Bike',),
               Task(nome: 'Ler Clean code',),
-              Task(nome: 'Estudar para Prova',),
+              Task(nome: 'Estudar',),
             ],
           ),
           floatingActionButton: FloatingActionButton(onPressed: () {
