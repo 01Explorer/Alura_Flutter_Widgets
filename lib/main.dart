@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
           body: ListView(
             children: [
               Task(
-                nome: 'Andar de Bike com a minha namorada pq eu não tenho ideia doq colocar',
+                nome:
+                    'Andar de Bike com a minha namorada pq eu não tenho ideia doq colocar',
               ),
               Task(
                 nome: 'Ler Clean code',
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Task extends StatelessWidget {
+class Task extends StatefulWidget {
   final String nome;
 
   const Task({
@@ -55,6 +56,12 @@ class Task extends StatelessWidget {
     required this.nome,
   }) : super(key: key);
 
+  @override
+  State<Task> createState() => _TaskState();
+}
+
+class _TaskState extends State<Task> {
+  int nivel = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -66,38 +73,53 @@ class Task extends StatelessWidget {
               color: Colors.blue,
               height: 140,
             ),
-            Container(
-              color: Colors.white,
-              height: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    color: Colors.black26,
-                    width: 72,
-                    height: 100,
-                  ),
-                  Container(
-                    width: 200,
-                    child: Text(
-                      nome,
-                      style: TextStyle(
-                        fontSize: 24,
-                        overflow: TextOverflow.ellipsis
+            Column(
+              children: [
+                Container(
+                  color: Colors.white,
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        color: Colors.black26,
+                        width: 72,
+                        height: 100,
                       ),
-                    ),
+                      Container(
+                        width: 200,
+                        child: Text(
+                          widget.nome,
+                          style: TextStyle(
+                            fontSize: 24,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        child: Column(
+                          children: const [
+                            Icon(Icons.arrow_drop_up),
+                            Text('Lvl Up')
+                          ],
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            nivel++;
+                          });
+                        },
+                      )
+                    ],
                   ),
-                  ElevatedButton(
-                    child: Column(
-                      children: const [
-                        Icon(Icons.arrow_drop_up),
-                        Text('Lvl Up')
-                      ],
-                    ),
-                    onPressed: () {},
-                  )
-                ],
-              ),
+                ),
+                Text(
+                  'Nível $nivel',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                )
+              ],
             )
           ],
         ),
