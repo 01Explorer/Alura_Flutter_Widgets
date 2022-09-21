@@ -16,28 +16,34 @@ class MyApp extends StatelessWidget {
         ),
         home: Scaffold(
           appBar: AppBar(
+            leading: Container(),
             title: const Text('Tarefas'),
           ),
           body: ListView(
             children: [
               Task(
-                nome:
-                    'Andar de Bike com a minha namorada pq eu não tenho ideia doq colocar',
+                nome: 'Andar de Bike',
+                foto:
+                    'https://www.osnibike.com.br/arquivos/LoginID_436/Padrao/infobicicleta2-4408.jpg',
               ),
               Task(
                 nome: 'Ler Clean code',
+                foto:
+                    'https://thebogotapost.com/wp-content/uploads/2017/06/636052464065850579-137719760_flyer-image-1.jpg',
               ),
               Task(
                 nome: 'Estudar',
+                foto:
+                    'https://pbs.twimg.com/media/Eu7m692XIAEvxxP?format=png&name=large',
               ),
               Task(
-                nome: 'Não sei',
+                nome: 'Meditar',
+                foto:
+                    'https://manhattanmentalhealthcounseling.com/wp-content/uploads/2019/06/Top-5-Scientific-Findings-on-MeditationMindfulness-881x710.jpeg',
               ),
               Task(
-                nome: 'Halo',
-              ),
-              Task(
-                nome: 'Hey',
+                nome: 'Jogar a vida fora',
+                foto: 'https://i.ibb.co/tB29PZB/kako-epifania-2022-2-c-pia.jpg',
               ),
             ],
           ),
@@ -50,11 +56,10 @@ class MyApp extends StatelessWidget {
 
 class Task extends StatefulWidget {
   final String nome;
+  final String foto;
 
-  const Task({
-    Key? key,
-    required this.nome,
-  }) : super(key: key);
+  const Task({Key? key, required this.nome, required this.foto})
+      : super(key: key);
 
   @override
   State<Task> createState() => _TaskState();
@@ -85,6 +90,10 @@ class _TaskState extends State<Task> {
                         color: Colors.black26,
                         width: 72,
                         height: 100,
+                        child: Image.network(
+                          widget.foto,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                       Container(
                         width: 200,
@@ -96,18 +105,29 @@ class _TaskState extends State<Task> {
                           ),
                         ),
                       ),
-                      ElevatedButton(
-                        child: Column(
-                          children: const [
-                            Icon(Icons.arrow_drop_up),
-                            Text('Lvl Up')
-                          ],
+                      Container(
+                        height: 70,
+                        width: 70,
+                        child: ElevatedButton(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: const [
+                              Icon(Icons.arrow_drop_up),
+                              Text(
+                                'Lvl Up',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              nivel++;
+                            });
+                          },
                         ),
-                        onPressed: () {
-                          setState(() {
-                            nivel++;
-                          });
-                        },
                       )
                     ],
                   ),
