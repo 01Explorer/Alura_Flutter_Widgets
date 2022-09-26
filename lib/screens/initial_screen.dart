@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/components/task_widget.dart';
+import 'package:projeto/data/task_inherited.dart';
+import 'package:projeto/screens/form_screen.dart';
 
 class InitialScreen extends StatefulWidget {
   const InitialScreen({super.key});
@@ -9,6 +10,7 @@ class InitialScreen extends StatefulWidget {
 }
 
 class _InitialScreenState extends State<InitialScreen> {
+  double valorProgresso = 0;
   bool opacidade = true;
   @override
   Widget build(BuildContext context) {
@@ -16,54 +18,62 @@ class _InitialScreenState extends State<InitialScreen> {
       appBar: AppBar(
         leading: Container(),
         title: const Text('Tarefas'),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              valorProgresso = TaskInherited.of(context).avaliaLevelGeral();
+              setState(() {
+                
+              });
+              debugPrint('$valorProgresso');
+            },
+            child: const Icon(
+              Icons.refresh,
+              color: Colors.white,
+            ),
+          )
+        ],
+        bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 300,
+                  child: LinearProgressIndicator(
+                    color: Colors.white,
+                    value: valorProgresso < 10 ? valorProgresso/10 : valorProgresso/100,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Level $valorProgresso',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                )
+              ],
+            )),
       ),
-      body: AnimatedOpacity(
-        opacity: opacidade ? 1 : 0,
-        duration: const Duration(milliseconds: 800),
-        child: ListView(
-          children: const [
-            Task(
-              nome: 'Andar de Bike',
-              foto:
-                  'assets/images/bike.jpg',
-              dificuldade: 2,
-            ),
-            Task(
-              nome: 'Ler Clean code',
-              foto:
-                  'assets/images/ler.jpg',
-              dificuldade: 4,
-            ),
-            Task(
-              nome: 'Estudar',
-              foto:
-                  'assets/images/ler.jpg',
-              dificuldade: 4,
-            ),
-            Task(
-              nome: 'Meditar',
-              foto:
-                  'assets/images/meditar.jpeg',
-              dificuldade: 5,
-            ),
-            Task(
-              nome: 'Jogar a vida fora',
-              foto: 'assets/images/jogar.jpg',
-              dificuldade: 1,
-            ),
-            SizedBox(
-              height: 80,
-            )
-          ],
-        ),
+      body: ListView(
+        children: TaskInherited.of(context).taskList,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          setState(() {
-            opacidade = !opacidade;
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (contextNew) => FormScreen(
+                taskContext: context,
+              ),
+            ),
+          );
         },
-        child: const Icon(Icons.remove_red_eye),
+        child: const Icon(Icons.add),
       ),
     );
   }
